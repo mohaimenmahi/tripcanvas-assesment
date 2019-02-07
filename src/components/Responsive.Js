@@ -19,15 +19,20 @@ const styles = {
   }
 };
 
-class SwipeableTemporaryDrawer extends React.Component {
+class Responsive extends React.Component {
   state = {
-    top: false
+    top: false,
+    selected: 0
   };
 
   toggleDrawer = (side, open) => () => {
     this.setState({
       [side]: open
     });
+  };
+
+  handleClick = value => {
+    this.setState({ selected: value });
   };
 
   render() {
@@ -38,11 +43,16 @@ class SwipeableTemporaryDrawer extends React.Component {
         <Divider />
         <List>
           {drawerBlogs.map((item, index) => (
-            <a href={"#" + item.label} style={{ textDecoration: "none" }}>
-              <ListItem button key={index}>
-                <ListItemText primary={item.title} />
-              </ListItem>
-            </a>
+            <ListItem
+              button
+              onClick={() => this.handleClick(index + 1)}
+              selected={this.state.selected === index + 1}
+              key={index}
+              component="a"
+              href={"#" + item.label}
+            >
+              <ListItemText primary={item.title} />
+            </ListItem>
           ))}
         </List>
       </div>
@@ -71,8 +81,8 @@ class SwipeableTemporaryDrawer extends React.Component {
   }
 }
 
-SwipeableTemporaryDrawer.propTypes = {
+Responsive.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(SwipeableTemporaryDrawer);
+export default withStyles(styles)(Responsive);
