@@ -1,58 +1,58 @@
 export const drawerBlogs = [
   {
     label: "one",
-    title: "1.Blog One"
+    title: "Blog One"
   },
   {
     label: "two",
-    title: "2.Blog Two"
+    title: "Blog Two"
   },
   {
     label: "three",
-    title: "3.Blog Three"
+    title: "Blog Three"
   },
   {
     label: "four",
-    title: "4.Blog Four"
+    title: "Blog Four"
   },
   {
     label: "five",
-    title: "5.Blog Five"
+    title: "Blog Five"
   },
   {
     label: "six",
-    title: "6.Blog Six"
+    title: "Blog Six"
   },
   {
     label: "seven",
-    title: "7.Blog Seven"
+    title: "Blog Seven"
   },
   {
     label: "eight",
-    title: "8.Blog Eight"
+    title: "Blog Eight"
   },
   {
     label: "nine",
-    title: "9.Blog Nine"
+    title: "Blog Nine"
   },
   {
     label: "ten",
-    title: "10.Blog Ten"
+    title: "Blog Ten"
   },
   {
     label: "eleven",
-    title: "11.Blog Eleven"
+    title: "Blog Eleven"
   },
   {
     label: "twelve",
-    title: "12.Blog Twelve"
+    title: "Blog Twelve"
   },
   {
     label: "thirteen",
-    title: "13.Blog Thirteen"
+    title: "Blog Thirteen"
   },
   {
     label: "fourteen",
-    title: "14.Blog Fourteen"
+    title: "Blog Fourteen"
   }
 ];

@@ -1,19 +1,19 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
 
 import { drawerBlogs } from "./BlogArray";
-
-const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
@@ -21,17 +21,22 @@ const styles = theme => ({
     textAlign: "center"
   },
   appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginRight: drawerWidth
+    width: "100%"
   },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0
+  list: {
+    width: 250
   },
-  drawerPaper: {
-    width: drawerWidth
+  fullList: {
+    width: "auto"
   },
   toolbar: theme.mixins.toolbar,
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 20
+  },
+  hide: {
+    display: "none"
+  },
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
@@ -46,22 +51,63 @@ const styles = theme => ({
   }
 });
 
-class MainPage extends Component {
+class Responsive extends React.Component {
   state = {
+    top: false,
     selected: 0
+  };
+
+  toggleDrawer = value => {
+    this.setState({
+      top: value
+    });
   };
 
   handleClick = value => {
     this.setState({ selected: value });
   };
+
   render() {
-    let { classes } = this.props;
+    const { classes } = this.props;
+
+    const fullList = (
+      <div className={classes.fullList}>
+        <Divider />
+        <List>
+          {drawerBlogs.map((item, index) => (
+            <ListItem
+              button
+              onClick={() => this.handleClick(index + 1)}
+              selected={this.state.selected === index + 1}
+              key={index}
+              component="a"
+              href={"#" + item.label}
+            >
+              <ListItemText
+                primary={item.title}
+                style={{ textAlign: "center" }}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </div>
+    );
 
     return (
       <div className={classes.root}>
-        <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar className={classes.toolbar}>
+            <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={() => this.toggleDrawer(true)}
+              className={classNames(
+                classes.menuButton,
+                this.state.top && classes.hide
+              )}
+            >
+              <MenuIcon />
+            </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
               My Personal Blog
             </Typography>
@@ -336,41 +382,28 @@ class MainPage extends Component {
           </div>
           <div className={classes.footer} />
         </div>
-        <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper
-          }}
-          anchor="right"
+        <SwipeableDrawer
+          anchor="top"
+          open={this.state.top}
+          onClose={() => this.toggleDrawer(false)}
+          onOpen={() => this.toggleDrawer(true)}
         >
-          <div className={classes.toolbar} />
-          <Divider />
-          <List>
-            {drawerBlogs.map((item, index) => (
-              <ListItem
-                button
-                onClick={() => this.handleClick(index + 1)}
-                selected={this.state.selected === index + 1}
-                key={index}
-                component="a"
-                href={"#" + item.label}
-              >
-                <ListItemText
-                  primary={item.title}
-                  style={{ textAlign: "center" }}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
+          <div
+            tabIndex={0}
+            role="button"
+            onClick={() => this.toggleDrawer(false)}
+            onKeyDown={() => this.toggleDrawer(false)}
+          >
+            {fullList}
+          </div>
+        </SwipeableDrawer>
       </div>
     );
   }
 }
 
-MainPage.propTypes = {
+Responsive.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(MainPage);
+export default withStyles(styles)(Responsive);
